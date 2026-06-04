@@ -22,7 +22,7 @@ final dioProvider = Provider<Dio>((ref) {
       onRequest: (options, handler) {
         final token = authState.token;
         if (token != null && token.isNotEmpty) {
-          options.headers['Authorization'] = ['Bearer', token].join(' ');
+          options.headers['Authorization'] = 'Bearer $token';
         }
         handler.next(options);
       },

@@ -11,32 +11,54 @@ class AuthController extends Notifier<AuthState> {
   }
 
   Future<void> _restoreSession() async {
-    final repository = ref.read(authRepositoryProvider);
-    final session = await repository.restoreSession();
+    try {
+      final repository = ref.read(authRepositoryProvider);
+      final session = await repository.restoreSession();
 
-    if (session == null) {
-      state = const AuthState(status: AuthStatus.unauthenticated);
-      return;
+      if (session == null) {
+        state = const AuthState(status: AuthStatus.unauthenticated);
+        return;
+      }
+
+      state = AuthState(
+        status: AuthStatus.authenticated,
+        token: session.accessToken,
+      );
+    } catch (_) {
+      state = const AuthState(
+        status: AuthStatus.unauthenticated,
+        errorMessage: 'Could not restore session.',
+      );
     }
-
-    state = AuthState(
-      status: AuthStatus.authenticated,
-      token: session.accessToken,
-    );
   }
 
   Future<void> signInPlaceholder() async {
-    final repository = ref.read(authRepositoryProvider);
-    final session = await repository.signInPlaceholder();
+    try {
+      final repository = ref.read(authRepositoryProvider);
+      final session = await repository.signInPlaceholder();
 
-    state = AuthState(
-      status: AuthStatus.authenticated,
-      token: session.accessToken,
-    );
+      state = AuthState(
+        status: AuthStatus.authenticated,
+        token: session.accessToken,
+      );
+    } catch (_) {
+      state = const AuthState(
+        status: AuthStatus.unauthenticated,
+        errorMessage: 'Sign in failed. Please try again.',
+      );
+    }
   }
 
   Future<void> signOut() async {
-    await ref.read(authRepositoryProvider).signOut();
-    state = const AuthState(status: AuthStatus.unauthenticated);
+    try {
+      await ref.read(authRepositoryProvider).signOut();
+      state = const AuthState(status: AuthStatus.unauthenticated);
+    } catch (_) {
+      state = AuthState(
+        status: AuthStatus.authenticated,
+        token: state.token,
+        errorMessage: 'Sign out failed. Please try again.',
+      );
+    }
   }
 }
