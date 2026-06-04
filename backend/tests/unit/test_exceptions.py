@@ -28,7 +28,7 @@ def test_unexpected_error_response_shape():
     def raise_unexpected():
         raise RuntimeError("unexpected")
 
-    client = TestClient(app)
+    client = TestClient(app, raise_server_exceptions=False)
     response = client.get("/raise-unexpected")
 
     assert response.status_code == 500

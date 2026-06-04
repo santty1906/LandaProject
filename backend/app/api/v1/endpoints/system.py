@@ -15,7 +15,7 @@ def liveness_check() -> dict:
 
 
 @router.get("/health/readiness")
-def readiness_check() -> JSONResponse | dict:
+def readiness_check() -> dict:
     """Readiness: reports degraded mode when database is unavailable."""
     db_ready = check_database_connection()
 
