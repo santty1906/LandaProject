@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from app.application.interfaces.face_auth import AuthAuditRepository, EmbeddingCipher, FaceEmbeddingRepository
-from app.application.interfaces.face_recognition import FaceRecognitionService
+from app.domain.interfaces.face_recognition import FaceRecognitionService
 from app.core.exceptions import AuthenticationError, InfrastructureError, ValidationAppError
 from app.core.logging import get_logger
 from app.infrastructure.security.jwt import create_access_token, create_refresh_token
@@ -97,6 +97,17 @@ class FaceAuthService:
             return FaceEnrollmentResult(user_id=user_id, model_name=self._face_recognition_service.model_name)
         except ValidationAppError:
             raise
+        except InfrastructureError:
+            self._safe_audit(
+                method="face",
+                outcome="failure",
+                reason_code="FACE_ENROLLMENT_ERROR",
+                request_id=request_id,
+                user_id=user_id,
+                client_ip=client_ip,
+                user_agent=user_agent,
+            )
+            raise
         except Exception as exc:  # noqa: BLE001
             self._safe_audit(
                 method="face",
@@ -156,6 +167,17 @@ class FaceAuthService:
                 reference_embedding,
                 candidate_embedding,
             )
+        except InfrastructureError:
+            self._safe_audit(
+                method="face",
+                outcome="failure",
+                reason_code="FACE_LOGIN_ERROR",
+                request_id=request_id,
+                user_id=user_id,
+                client_ip=client_ip,
+                user_agent=user_agent,
+            )
+            raise
         except Exception as exc:  # noqa: BLE001
             self._safe_audit(
                 method="face",
@@ -215,5 +237,9 @@ class FaceAuthService:
                 client_ip=client_ip,
                 user_agent=user_agent,
             )
-        except Exception:  # noqa: BLE001
-            logger.warning("Failed to write authentication audit log", extra={"reason_code": reason_code})
+        except Exception as exc:  # noqa: BLE001
+            logger.warning(
+                "Failed to write authentication audit log",
+                extra={"reason_code": reason_code},
+                exc_info=exc,
+            )

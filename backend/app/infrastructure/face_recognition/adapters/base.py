@@ -7,7 +7,10 @@ from pathlib import Path
 
 from app.core.config import Settings, get_settings
 from app.core.exceptions import InfrastructureError
+from app.core.logging import get_logger
 from app.domain.interfaces.face_recognition import FaceComparisonResult, FaceQualityResult, FaceRecognitionService
+
+logger = get_logger(__name__)
 
 
 class DeepFaceRecognitionAdapter(FaceRecognitionService):
@@ -102,7 +105,9 @@ class DeepFaceRecognitionAdapter(FaceRecognitionService):
             return [float(value) for value in embedding]
         except InfrastructureError:
             raise
-        except Exception as exc:  # noqa: BLE001
+        except ValueError as exc:
+            raise InfrastructureError("Face embedding generation failed") from exc
+        except RuntimeError as exc:
             raise InfrastructureError("Face embedding generation failed") from exc
         finally:
             Path(image_path).unlink(missing_ok=True)
@@ -141,7 +146,10 @@ class DeepFaceRecognitionAdapter(FaceRecognitionService):
                 enforce_detection=False,
             )
             return len(faces)
-        except Exception:  # noqa: BLE001
+        except ValueError:
+            return 0
+        except RuntimeError as exc:
+            logger.warning("Face detection runtime error", exc_info=exc)
             return 0
         finally:
             Path(image_path).unlink(missing_ok=True)
@@ -156,7 +164,7 @@ class DeepFaceRecognitionAdapter(FaceRecognitionService):
     def _load_deepface_module():
         try:
             from deepface import DeepFace
-        except Exception as exc:  # noqa: BLE001
+        except (ImportError, ModuleNotFoundError) as exc:
             raise InfrastructureError("DeepFace provider unavailable") from exc
         return DeepFace
 
@@ -165,7 +173,7 @@ class DeepFaceRecognitionAdapter(FaceRecognitionService):
         try:
             import cv2
             import numpy as np
-        except Exception as exc:  # noqa: BLE001
+        except (ImportError, ModuleNotFoundError) as exc:
             raise InfrastructureError("Image processing dependencies unavailable") from exc
         return np, cv2
 

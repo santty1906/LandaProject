@@ -29,7 +29,10 @@ class FernetEmbeddingCipher(EmbeddingCipher):
         )
 
     def decrypt_embedding(self, ciphertext: str, metadata: dict[str, str]) -> list[float]:
-        del metadata
+        key_version = metadata.get("key_version")
+        if key_version != self._settings.face_embedding_key_version:
+            raise InfrastructureError("Unsupported embedding key version")
+
         try:
             plaintext = self._fernet.decrypt(ciphertext.encode("utf-8"))
         except InvalidToken as exc:

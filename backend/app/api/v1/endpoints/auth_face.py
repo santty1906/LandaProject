@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, Form, Request, UploadFile
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from app.api.dependencies.face_auth import get_face_auth_service
 from app.application.services.face_auth import FaceAuthService
