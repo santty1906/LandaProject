@@ -48,7 +48,7 @@ FastAPI foundation for authentication and banking APIs.
 ## Local commands
 
 ```bash
-cd /tmp/workspace/santty1906/LandaProject/backend
+cd backend
 pip install -r requirements/dev.txt
 ```
 
@@ -72,6 +72,18 @@ Run migrations:
 alembic upgrade head
 alembic revision --autogenerate -m "describe_change"
 alembic downgrade -1
+```
+
+Run integration suite (PostgreSQL-backed):
+
+Ensure Postgres is running (e.g. `docker compose up -d db`). With the default compose mapping, use `POSTGRES_HOST=localhost` and `POSTGRES_PORT=5433`:
+
+    POSTGRES_HOST=localhost POSTGRES_PORT=5433 pytest -m integration -o addopts=''
+
+Run heavy face-provider suite (manual/nightly):
+
+```bash
+RUN_FACE_PROVIDER_TESTS=1 pytest -m face_provider -o addopts=''
 ```
 
 ## FaceID environment variables

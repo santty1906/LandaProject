@@ -1,8 +1,8 @@
 """add face auth tables
 
-Revision ID: 20260605_000002
-Revises: 20260604_000001
-Create Date: 2026-06-05 00:00:02
+Revision ID: 20260605_000003
+Revises: 20260605_000002
+Create Date: 2026-06-05 00:00:03
 """
 
 from typing import Sequence
@@ -11,8 +11,8 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
-revision: str = "20260605_000002"
-down_revision: str | Sequence[str] | None = "20260604_000001"
+revision: str = "20260605_000003"
+down_revision: str | Sequence[str] | None = "20260605_000002"
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
 
