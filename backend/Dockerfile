@@ -2,8 +2,10 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY requirements/dev.txt /tmp/dev.txt
-RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r /tmp/dev.txt
+COPY requirements /tmp/requirements
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r /tmp/requirements/dev.txt
 
 COPY app /app/app
 
