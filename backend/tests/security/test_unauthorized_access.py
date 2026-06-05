@@ -6,8 +6,7 @@ pytestmark = [pytest.mark.security, pytest.mark.auth, pytest.mark.api]
 
 
 def _bearer(token: str) -> str:
-    scheme = "".join(chr(c) for c in (66, 101, 97, 114, 101, 114))
-    return f"{scheme} {token}"
+    return f"Bearer {token}"
 
 
 def test_protected_endpoint_requires_token(protected_client):

@@ -76,9 +76,9 @@ alembic downgrade -1
 
 Run integration suite (PostgreSQL-backed):
 
-```bash
-pytest -m integration -o addopts=''
-```
+Ensure Postgres is running (e.g. `docker compose up -d db`). With the default compose mapping, use `POSTGRES_HOST=localhost` and `POSTGRES_PORT=5433`:
+
+    POSTGRES_HOST=localhost POSTGRES_PORT=5433 pytest -m integration -o addopts=''
 
 Run heavy face-provider suite (manual/nightly):
 

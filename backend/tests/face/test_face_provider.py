@@ -14,4 +14,4 @@ pytestmark = [
 
 
 def test_face_provider_pipeline_placeholder():
-    assert True
+    pytest.skip("Provider integration tests are not implemented yet; enable once a concrete adapter exists.")
