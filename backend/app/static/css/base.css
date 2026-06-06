@@ -1,0 +1,154 @@
+:root {
+    --bank-red: #c62828;
+    --bank-red-dark: #b71c1c;
+    --bank-red-light: #ef5350;
+}
+
+body {
+    background-color: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding-bottom: 70px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.bank-header {
+    background: linear-gradient(135deg, var(--bank-red-dark), var(--bank-red));
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.main-container {
+    max-width: 480px;
+}
+
+.card {
+    transition: transform 0.15s ease;
+}
+
+.card:active {
+    transform: scale(0.98);
+}
+
+.btn-danger {
+    background-color: var(--bank-red);
+    border-color: var(--bank-red);
+}
+
+.btn-danger:hover {
+    background-color: var(--bank-red-dark);
+    border-color: var(--bank-red-dark);
+}
+
+.btn-outline-danger {
+    border-color: var(--bank-red);
+    color: var(--bank-red);
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--bank-red);
+    border-color: var(--bank-red);
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #eee;
+    z-index: 1030;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #999;
+    text-align: center;
+    padding: 4px 12px;
+    border-radius: 8px;
+    transition: color 0.2s;
+}
+
+.nav-item.active {
+    color: var(--bank-red);
+}
+
+.nav-item:hover {
+    color: var(--bank-red-light);
+}
+
+.nav-item small {
+    display: block;
+    font-size: 0.65rem;
+    margin-top: -2px;
+}
+
+.input-group-text {
+    background: white;
+    border-right: none;
+    color: #999;
+}
+
+.input-group .form-control {
+    border-left: none;
+}
+
+.input-group .form-control:focus {
+    border-color: #dee2e6;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: var(--bank-red);
+    box-shadow: 0 0 0 0.2rem rgba(198, 40, 40, 0.15);
+}
+
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.camera-container {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+
+.camera-container video {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.bank-icon {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    background: rgba(198, 40, 40, 0.1);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+@media (min-width: 768px) {
+    .main-container {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="row g-3">
+    <div class="col-12">
+        <div class="card bg-danger text-white border-0 rounded-4 shadow-sm">
+            <div class="card-body p-4">
+                <small class="text-white-50">Account Balance</small>
+                <h2 class="fw-bold mb-0">$15,420.00</h2>
+                <small class="text-white-50">USD · Checking Account</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card border-0 rounded-4 shadow-sm h-100">
+            <div class="card-body text-center p-3">
+                <i class="bi bi-arrow-up-circle text-danger fs-2"></i>
+                <h6 class="fw-bold mt-2 mb-0">Send</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card border-0 rounded-4 shadow-sm h-100">
+            <div class="card-body text-center p-3">
+                <i class="bi bi-arrow-down-circle text-danger fs-2"></i>
+                <h6 class="fw-bold mt-2 mb-0">Request</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card border-0 rounded-4 shadow-sm">
+            <div class="card-header bg-transparent border-0 pt-3 px-3">
+                <h6 class="fw-bold mb-0"><i class="bi bi-clock-history me-2"></i>Recent Activity</h6>
+            </div>
+            <div class="card-body p-0">
+                {% if recent_activity %}
+                <ul class="list-group list-group-flush">
+                    {% for log in recent_activity %}
+                    <li class="list-group-item border-0 py-2 px-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="fw-medium">{{ log.action }}</small>
+                                <br>
+                                <small class="text-muted">{{ log.timestamp.strftime('%b %d, %Y %I:%M %p') }}</small>
+                            </div>
+                            <span class="badge {% if log.success %}bg-success{% else %}bg-danger{% endif %} rounded-pill">
+                                {{ 'OK' if log.success else 'FAIL' }}
+                            </span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-inbox fs-3"></i>
+                    <p class="mt-2 small">No activity yet</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if user.face_enrolled %}
+    <div class="col-12">
+        <div class="card border-0 rounded-4 shadow-sm bg-success bg-opacity-10">
+            <div class="card-body p-3 d-flex align-items-center">
+                <i class="bi bi-shield-check text-success fs-3 me-3"></i>
+                <div>
+                    <small class="fw-medium">Face ID Active</small>
+                    <br>
+                    <small class="text-muted">Biometric authentication enabled</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
