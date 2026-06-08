@@ -82,7 +82,7 @@ cp .env.example .env
 python run.py
 ```
 
-Open **http://localhost:5000** in your browser.
+Open **http://192.168.0.8:5000** in your browser.
 
 ## Testing
 
@@ -130,13 +130,13 @@ The first call to `DeepFace.represent()` will download the Facenet512 model auto
 
 ### Android (Chrome)
 
-1. Open http://localhost:5000 in Chrome
+1. Open http://192.168.0.8:5000 in Chrome
 2. Tap the "Install" badge in the address bar (or menu → "Add to Home Screen")
 3. LANDA Bank will appear as an installed app
 
 ### iOS (Safari)
 
-1. Open http://localhost:5000 in Safari
+1. Open http://192.168.0.8:5000 in Safari
 2. Tap the Share button → "Add to Home Screen"
 3. Name the app → "Add"
 
